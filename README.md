@@ -1,6 +1,6 @@
-# X-Nav-Practica-Socios
-Ejercicio de asignaturas de aplicaciones HTML5. Segunda práctica optativa. Socios.
+# X-Nav-JSLibs-JQueryUI
+Ejercicio de asignaturas de aplicaciones HTML5. Tema Bibliotecas JavaScript. Juega con JQueryUI.
 
 ## Enunciado
 
-Vamos a construir parte del interfaz de usuario de la aplicación Socios, una nueva red social. En particular, vamos a representar en el navegador la información que nos va a llegar en varios documentos JSON. Para simular lo suficiente para poder realizar la interfaz de usuario, estos documentos JSON serán ficheros estáticos que se servirán al navegador con el resto de la aplicación, que estará compuesta por un fichero HTML, otro JavaScript y otro CSS. Detalles del enunciado en el programa de la asignatura.
+Prepara una interfaz de usuario que muestre la potencia de JQueryUI. En la medida de lo posible, trata de que sea similar a una interfaz de usuario de una aplicación real: un escritorio, un sitio web para comprar viajes, una aplicación para interaccionar con una red social, etc. Procura experimentar con los elementos que proporciona JQueryUI, y trata de que se muestren de forma adecuada sus capacidades.

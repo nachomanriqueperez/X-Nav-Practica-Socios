@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Tabs - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+        #draggable { width: 132px; height: 150px; padding: 0.5em; }
+       .ui-menu { width: 150px; }
+       .draggable { width: 90px; height: 80px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; }
+       .ui-widget-header p, .ui-widget-content p { margin: 0; }
+       #snaptarget { height: 140px; }
+       .fakewindowcontain .ui-widget-overlay {
+       		position: absolute;
+       	}
+
+        #progressbar {
+            margin-top: 20px;
+        }
+
+        .progress-label {
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+        }
+
+
+  </style>
+  <script>
+          $(function() {
+              var progressTimer,
+              progressbar = $( "#progressbar" ),
+              progressLabel = $( ".progress-label" ),
+              dialogButtons = [{
+                text: "Cancelar descarga",
+                click: closeDownload
+              }],
+              dialog = $( "#dialog" ).dialog({
+                autoOpen: false,
+                closeOnEscape: false,
+                resizable: false,
+                buttons: dialogButtons,
+                open: function() {
+                  progressTimer = setTimeout( progress, 2000 );
+                },
+                beforeClose: function() {
+                  downloadButton.button( "option", {
+                    disabled: false,
+                    label: "Descargar"
+                  });
+                }
+          }),
+        downloadButton = $( "#downloadButton" )
+            .button()
+            .on( "click", function() {
+              $( this ).button( "option", {
+                disabled: true,
+                label: "Descargando..."
+              });
+              dialog.dialog( "open" );
+        });
+
+        progressbar.progressbar({
+          value: false,
+          change: function() {
+            progressLabel.text( "Progreso: " + progressbar.progressbar( "value" ) + "%" );
+          },
+          complete: function() {
+            progressLabel.text( "Descargado!" );
+            dialog.dialog( "option", "buttons", [{
+              text: "Cancelar",
+              click: closeDownload
+            }]);
+            $(".ui-dialog button").last().focus();
+          }
+        });
+
+        function progress() {
+          var val = progressbar.progressbar( "value" ) || 0;
+
+          progressbar.progressbar( "value", val + Math.floor( Math.random() * 3 ) );
+
+          if ( val <= 99 ) {
+            progressTimer = setTimeout( progress, 50 );
+          }
+        }
+
+        function closeDownload() {
+          clearTimeout( progressTimer );
+          dialog
+            .dialog( "option", "buttons", dialogButtons )
+            .dialog( "close" );
+          progressbar.progressbar( "value", false );
+          progressLabel
+            .text( "Comenzando descarga..." );
+          downloadButton.focus();
+        }
+        });
+
+      $(function() {
+        $( "#draggable" ).draggable({ axis: "x" });
+      });
+
+	  $(function() {
+	    $( "#tabs" ).tabs();
+	  });
+
+      $(function() {
+       $( "#menu" ).menu();
+     });
+
+	  $(function() {
+	    $( "#dialogexit" ).dialog({
+	      autoOpen: false,
+	      show: {
+	        effect: "blind",
+	        duration: 1000
+	      },
+	      hide: {
+	        effect: "explode",
+	        duration: 1000
+	      }
+	    });
+
+	    $( "#openerexit" ).click(function() {
+	      $( "#dialogexit" ).dialog( "open" );
+	    });
+
+		$( "#resp" ).click(function() {
+	      $( "#dialogresp" ).dialog( "open" );
+	    });
+	  });
+
+	  $(function() {
+	    $( "#accordion" ).accordion({
+	      collapsible: true,
+		  heightStyle: "content",
+   		  navigation: true
+	    });
+	  });
+
+  </script>
+</head>
+<body>
+
+<div id="tabs">
+      <ul>
+        <li><a href="#tabs-1">Inicio</a></li>
+        <li><a href="#tabs-2">Mensajes</a></li>
+        <li><a href="#tabs-3">Desconectar</a></li>
+      </ul>
+      <div id="tabs-1" style ="width : 100%">
+        <p>Página Principal, que estarán haciendo tus amigos?</p>
+        <div id="perfil" style ="position:relative; float:left">
+            <div id="snaptarget" class="ui-widget-header" >
+              <p>Tu perfil</p>
+              <img src = "images/portada.jpg" height="120px" width="100%">
+            </div>
+
+            <div id="draggable" class="ui-widget-content" >
+                <p>Tu foto de perfil</p>
+                <img src = "images/perfil.jpg" height="140px" width="132px">
+            </div>
+            <div>
+                <ul id="menu">
+                    <li>Privacidad
+                        <ul>
+                            <li>Contenido visible</li>
+                            <li>Proteccion de cuenta</li>
+                        </ul>
+                    </li>
+                    <li>Ajustes
+                        <ul>
+                            <li></li>
+                            <li>Personalizar vista de la página</li>
+                            <li>Opciones de cuenta</li>
+                        </ul>
+                    </li>
+                    <li>Ayuda</li>
+                        </ul>
+                  </li>
+              </div>
+              <div style="width: 70%; height: 200px; padding:1% 2%; overflow:auto;" class="fakewindowcontain">
+                <h1 class="noticias">Noticias destacadas</h1>
+                <h2 >Jorge ha compartido una publicacion</h2>
+                <p>Vaya dia pasamos en el soto el viernes!! Os dejo aqui en adjunto para que os descargueis la carpeta con las fotos! ;)</p>
+                <div id="dialog" title="Album de fotos">
+                  <div class="progress-label">Descargando archivo</div>
+                  <div id="progressbar"></div>
+                </div>
+                <button id="downloadButton" >Descargar album</button>
+              </div>
+      </div>
+
+  </div>
+  <div id="tabs-2">
+    <p>Lee tus nuevos mensajes, revisa los anteriores, o envialos a tus amigos</p>
+
+	<div id="accordion">
+	  <h3>Mensaje de Jorge. 12/04/16 20:14</h3>
+	  <div>
+	    <p>Al final no puedo ir cuando te dije, te veo directamente en la uni.</p>
+  	  	<button id="resp">Responder</button>
+	  </div>
+	  <h3>Mensaje de Alex. 12/04/16 14:32</h3>
+	  <div>
+	    <p>Esta tarde molaria ir a la biblio a hacer el trabajo, comemos y vamos? </p>
+		<button id="resp">Responder</button>
+	  </div>
+	  <h3>Mensaje de Sandra. 11/04/16 23:14</h3>
+	  <div>
+	    <p>Mañana por la tarde acuerdate de que me tienes que pasar lo de radiacion</p>
+		<button id="resp">Responder</button>
+	  </div>
+	  <h3>Mensaje de Tony. 11/04/16 12:04</h3>
+	  <div>
+	    <p>Vamonos el viernes por ahi de marcha no?? </p>
+		<button id="resp">Responder</button>
+	  </div>
+	</div>
+  </div>
+  <div id="tabs-3">
+	  <div id="dialogexit" title="Has sido desconectado">
+	      <p>Te has desconectado satisfactoriamente, vuelve pronto! :)</p>
+	  </div>
+
+	  <button id="openerexit">Desconectarse</button>
+  </div>
+</div>
+
+</body>
+</html>
