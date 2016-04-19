@@ -1,0 +1,9 @@
+{
+    "Nacho" : [{
+            "autor": "nacho",
+            "avatar": "/images/nacho.png",
+            "titulo": "Mensaje de prueba de update",
+            "contenido" : "Esto es un mensaje de prueba de update",
+            "fecha" : "18/04/16"
+        }]
+}
