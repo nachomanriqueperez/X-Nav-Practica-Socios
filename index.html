@@ -9,13 +9,53 @@
   <script src="index.js"></script>
 
   <style>
+
+        .buttonmsg{text-decoration:none; text-align:center;
+            padding:11px 21px;
+            border:solid 3px #004F72;
+            -webkit-border-radius:4px;
+            -moz-border-radius:4px;
+            border-radius: 4px;
+            font:18px Arial, Helvetica, sans-serif;
+            font-weight:bold;
+            color:#E5FFFF;
+            background-color:#3BA4C7;
+
+
+            }.buttonmsg:hover{
+            padding:11px 21px;
+            border:solid 3px #004F72;
+            -webkit-border-radius:4px;
+            -moz-border-radius:4px;
+            border-radius: 4px;
+            font:18px Arial, Helvetica, sans-serif;
+            font-weight:bold;
+            color:#E5FFFF;
+            background-color:#3BA4C7;
+
+
+            }.buttonmsg:active{
+            padding:11px 21px;
+            border:solid 3px #004F72;
+            -webkit-border-radius:4px;
+            -moz-border-radius:4px;
+            border-radius: 4px;
+            font:18px Arial, Helvetica, sans-serif;
+            font-weight:bold;
+            color:#E5FFFF;
+            opacity:0.56;
+            -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=56);
+            filter: alpha(opacity=56);
+        }
+        /*codigo del boton*/
         #draggable { width: 132px; height: 150px; padding: 0.5em; }
-       .ui-menu { width: 150px; }
+       .ui-menu { width: 10.5%; }
        .draggable { width: 90px; height: 80px; padding: 5px; float: left; margin: 0 10px 10px 0; font-size: .9em; }
        .ui-widget-header p, .ui-widget-content p { margin: 0; }
        #snaptarget { height: 140px; }
        .fakewindowcontain .ui-widget-overlay {
-       		position: absolute;
+       		position: relative;
+            float: left;
        	}
 
         #progressbar {
@@ -26,6 +66,17 @@
             font-weight: bold;
             text-shadow: 1px 1px 0 #fff;
         }
+
+        body { font-size: 62.5%; }
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        div#users-contain { width: 350px; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
   </style>
 </head>
 <body>
@@ -33,40 +84,45 @@
 <div id="tabs">
       <ul>
         <li><a href="#tabs-1">Inicio</a></li>
-        <li><a href="#tabs-2">Mensajes</a></li>
+        <li><a href="#tabs-2">Mensajes Recibidos</a></li>
+        <li><a href="#tabs-4">Mensajes Enviados</a></li>
         <li><a href="#tabs-3">Desconectar</a></li>
       </ul>
-      <div id="tabs-1" style ="width : 100%">
+      <div id="tabs-1" style ="width: 98%;">
         <p>Página Principal, que estarán haciendo tus amigos?</p>
-        <div id="perfil" style ="position:relative; float:left">
-            <div id="snaptarget" class="ui-widget-header" >
-              <p>Tu perfil</p>
-              <img src = "images/portada.jpg" height="120px" width="100%">
-            </div>
+        <div id="snaptarget" class="ui-widget-header">
+          <p>Tu perfil</p>
+          <img src = "images/portada.jpg" height="120px" width="100%">
+        </div>
+        <div id="perfil">
+            <div >
 
-            <div id="draggable" class="ui-widget-content" >
-                <p>Tu foto de perfil</p>
-                <img src = "images/perfil.jpg" height="140px" width="132px">
+                <div id="draggable" class="ui-widget-content">
+                    <p>Tu foto de perfil</p>
+                    <img src = "images/perfil.jpg" height="140px" width="100%">
+                </div>
+                <div>
+                    <ul id="menu">
+                        <li>Privacidad
+                            <ul>
+                                <li>Contenido visible</li>
+                                <li>Proteccion de cuenta</li>
+                            </ul>
+                        </li>
+                        <li>Ajustes
+                            <ul>
+                                <li></li>
+                                <li>Personalizar vista de la página</li>
+                                <li>Opciones de cuenta</li>
+                            </ul>
+                        </li>
+                        <li>Ayuda</li>
+                    </ul>
+
+                  </div>
             </div>
-            <div>
-                <ul id="menu">
-                    <li>Privacidad
-                        <ul>
-                            <li>Contenido visible</li>
-                            <li>Proteccion de cuenta</li>
-                        </ul>
-                    </li>
-                    <li>Ajustes
-                        <ul>
-                            <li></li>
-                            <li>Personalizar vista de la página</li>
-                            <li>Opciones de cuenta</li>
-                        </ul>
-                    </li>
-                    <li>Ayuda</li>
-                        </ul>
-                  </li>
-              </div>
+        </div>
+        <div >
               <div style="width: 70%; height: 200px; padding:1% 2%; overflow:auto;" class="fakewindowcontain">
                 <h1 class="noticias">Noticias destacadas</h1>
                 <h2 >Jorge ha compartido una publicacion</h2>
@@ -77,43 +133,66 @@
                 </div>
                 <button id="downloadButton" >Descargar album</button>
               </div>
+
+              <div id="accordion2" class="accordion2">
+              </div>
+
+              <span id = "buttonmsg" class="buttonmsg"/>Tienes mensajes nuevos</span>
+
+              <div id="dialog-form" title="Publicar noticia">
+
+                  <form>
+                    <fieldset>
+                      <label for="name">Nueva noticia</label>
+                      <input type="text" name="titulo" id="titulo" value="Escriba aqui su titulo." class="text ui-widget-content ui-corner-all">
+                      <textarea name="name"id = "name" rows="10" cols="40">Escribe aquí tus comentarios</textarea>
+
+                      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+                    </fieldset>
+                  </form>
+             </div>
+             <button id="create-msg" style ="width : 153px" >Publicar comentario</button>
+          </div>
       </div>
+      <div id="tabs-2">
+        <p>Lee tus nuevos mensajes, revisa los anteriores, o envialos a tus amigos</p>
 
-  </div>
-  <div id="tabs-2">
-    <p>Lee tus nuevos mensajes, revisa los anteriores, o envialos a tus amigos</p>
+    	<div id="accordion" class="accordion">
+    	  <h3>Mensaje de Jorge. 12/04/16 20:14</h3>
+    	  <div class = "timeline">
+    	    <p>Al final no puedo ir cuando te dije, te veo directamente en la uni.</p>
+      	  	<button id="resp">Responder</button>
+    	  </div>
+    	  <h3>Mensaje de Alex. 12/04/16 14:32</h3>
+    	  <div class = "timeline">
+    	    <p>Esta tarde molaria ir a la biblio a hacer el trabajo, comemos y vamos? </p>
+    		<button id="resp">Responder</button>
+    	  </div>
+    	  <h3>Mensaje de Sandra. 11/04/16 23:14</h3>
+    	  <div class = "timeline">
+    	    <p>Mañana por la tarde acuerdate de que me tienes que pasar lo de radiacion</p>
+    		<button id="resp">Responder</button>
+    	  </div>
+    	  <h3>Mensaje de Tony. 11/04/16 12:04</h3>
+    	  <div class = "timeline">
+    	    <p>Vamonos el viernes por ahi de marcha no?? </p>
+    		<button id="resp">Responder</button>
+    	  </div>
+    	</div>
+      </div>
+      <div id="tabs-4">
+          <div id="accordion3" class="accordion3">
+          </div>
+      </div>
+      <div id="tabs-3">
+    	  <div id="dialogexit" title="Has sido desconectado">
+    	      <p>Te has desconectado satisfactoriamente, vuelve pronto! :)</p>
+    	  </div>
 
-	<div id="accordion" class="accordion">
-	  <h3>Mensaje de Jorge. 12/04/16 20:14</h3>
-	  <div class = "timeline">
-	    <p>Al final no puedo ir cuando te dije, te veo directamente en la uni.</p>
-  	  	<button id="resp">Responder</button>
-	  </div>
-	  <h3>Mensaje de Alex. 12/04/16 14:32</h3>
-	  <div class = "timeline">
-	    <p>Esta tarde molaria ir a la biblio a hacer el trabajo, comemos y vamos? </p>
-		<button id="resp">Responder</button>
-	  </div>
-	  <h3>Mensaje de Sandra. 11/04/16 23:14</h3>
-	  <div class = "timeline">
-	    <p>Mañana por la tarde acuerdate de que me tienes que pasar lo de radiacion</p>
-		<button id="resp">Responder</button>
-	  </div>
-	  <h3>Mensaje de Tony. 11/04/16 12:04</h3>
-	  <div class = "timeline">
-	    <p>Vamonos el viernes por ahi de marcha no?? </p>
-		<button id="resp">Responder</button>
-	  </div>
-	</div>
-  </div>
-  <div id="tabs-3">
-	  <div id="dialogexit" title="Has sido desconectado">
-	      <p>Te has desconectado satisfactoriamente, vuelve pronto! :)</p>
-	  </div>
-
-	  <button id="openerexit">Desconectarse</button>
-  </div>
-</div>
+    	  <button id="openerexit">Desconectarse</button>
+      </div>
+ </div>
 
 </body>
 </html>

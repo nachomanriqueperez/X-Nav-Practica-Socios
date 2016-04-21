@@ -1,36 +1,162 @@
 $(document).ready(function() {
 
+        autor_val_up = [];
+        avatar_val_up = [];
+        titulo_val_up = [];
+        contenido_val_up = [];
+        fecha_val_up = [];
+
         autor_val = [];
         avatar_val = [];
         titulo_val = [];
         contenido_val = [];
         fecha_val = [];
 
-        function organizar_val(val){
-            var i = 0;
+        autor_val_mine = [];
+        avatar_val_mine = [];
+        titulo_val_mine = [];
+        contenido_val_mine = [];
+        fecha_val_mine = [];
+        /*$(function() {
+            $( "#accordion" ).accordion({
+                collapsible: true,
+                heightStyle: "content",
+                navigation: true
+            });
+        });*/
 
-            autor_val[i] = val[0];
-            avatar_val[i] = "<img class='col-md-2' src='" + val[1] + "' height='100' width='100'></img>";
-            titulo_val[i] = val[2];
-            contenido_val[i] = val[3];
-            fecha_val[i] = val[4];
+        $(function() {
+            $( "#tabs" ).tabs();
+        });
 
-            console.log(autor_val[i]);
-            console.log(avatar_val[i]);
-            console.log(titulo_val[i]);
-            console.log(contenido_val[i]);
-            console.log(fecha_val[i]);
-
-            i++;
-            return i;
+        function organizar_val(val,num){
+            var i_datos = 0;
+            console.log("MIRAR ESTO");
+            for (user = 0; user<num; user++){
+                autor_val[user] = val[i_datos];
+                console.log("autor:")
+                console.log(autor_val[user]);
+                i_datos++;
+                avatar_val[user] = "<img class='col-md-2' src='" + val[i_datos] + "' height='100' width='100'></img>";
+                console.log("avatar:")
+                console.log(avatar_val[user]);
+                i_datos++;
+                titulo_val[user] = val[i_datos];
+                console.log("titulo:")
+                console.log(titulo_val[user]);
+                i_datos++;
+                contenido_val[user] = val[i_datos];
+                console.log("contenido:")
+                console.log(contenido_val[user]);
+                i_datos++;
+                fecha_val[user] = val[i_datos];
+                console.log("fecha:")
+                console.log(fecha_val[user]);
+                i_datos++;
+            };
+            console.log("HASTA AQUI");
         };
+
+        function organizar_val_myline(val,num){
+            var i_datos = 0;
+
+            for (user = 0; user<num; user++){
+                autor_val_mine[user] = val[i_datos];
+                //console.log("autor:")
+                //console.log(autor_val_mine[user]);
+                i_datos++;
+                avatar_val_mine[user] = "<img class='col-md-2' src='" + val[i_datos] + "' height='100' width='100'></img>";
+                //console.log("avatar:")
+                //console.log(avatar_val_mine[user]);
+                i_datos++;
+                titulo_val_mine[user] = val[i_datos];
+                //console.log("titulo:")
+                //console.log(titulo_val_mine[user]);
+                i_datos++;
+                contenido_val_mine[user] = val[i_datos];
+                //console.log("contenido:")
+                //console.log(contenido_val_mine[user]);
+                i_datos++;
+                fecha_val_mine[user] = val[i_datos];
+                //console.log("fecha:")
+                //console.log(fecha_val_mine[user]);
+                i_datos++;
+            };
+        };
+
+        function organizar_val_update(val,num){
+            var i_datos = 0;
+
+            for (user = 0; user<num; user++){
+                autor_val_up[user] = val[i_datos];
+                //console.log("autor:")
+                //console.log(autor_val_up[user]);
+                i_datos++;
+                avatar_val_up[user] = "<img class='col-md-2' src='" + val[i_datos] + "' height='100' width='100'></img>";
+                //console.log("avatar:")
+                //console.log(avatar_val_up[user]);
+                i_datos++;
+                titulo_val_up[user] = val[i_datos];
+                //console.log("titulo:")
+                //console.log(titulo_val_up[user]);
+                i_datos++;
+                contenido_val_up[user] = val[i_datos];
+                //console.log("contenido:")
+                //console.log(contenido_val_up[user]);
+                i_datos++;
+                fecha_val_up[user] = val[i_datos];
+                //console.log("fecha:")
+                //console.log(fecha_val_up[user]);
+                i_datos++;
+            };
+
+        };
+        $("#buttonmsg").click(function(){
+            $.getJSON("update.json")
+            .done(function(data) {
+                var i = 0;
+                var valores_up = [];
+                var num_usuarios = 0;
+                $.each(data,function (key,value){
+                    num_usuarios++;
+                    $.each(value,function (key,value){
+                        $.each(value,function (key,value){
+                            valores_up[i] = value;
+                            i++;
+                        });
+                    });
+                });
+
+                organizar_val_update(valores_up, num_usuarios);
+
+                for (user = 0; user<num_usuarios; user++){
+
+        			$("<h3>",{"class":"autor_noticia" + user,
+                        html: titulo_val_up[user] + ". Mensaje de " + autor_val_up[user] + ". " + fecha_val_up[user],
+        			}).appendTo(".accordion2");
+
+        			$("<div>",{"class":"noticia" + user,
+                        html: avatar_val_up[user] + "<ul><li>" + contenido_val_up[user] +"</li></ul>",
+        			}).appendTo(".accordion2");
+                }
+                $( ".accordion2" ).accordion({heightStyle: "content"});
+                $("#buttonmsg").hide();
+            })
+
+            .fail(function(data){
+                console.log("fallo");
+            });
+
+        });
 
         $.getJSON("timeline.json")
         .done(function(data) {
 
             var i = 0;
             var valores = [];
+            var num_usuarios = 0;
             $.each(data,function (key,value){
+                num_usuarios++;
                 $.each(value,function (key,value){
                     $.each(value,function (key,value){
                         valores[i] = value;
@@ -39,20 +165,19 @@ $(document).ready(function() {
                 });
             });
 
-            var id_perfil = organizar_val(valores) - 1;
+            organizar_val(valores, num_usuarios);
 
-            console.log(id_perfil);
+            for (user = 0; user<num_usuarios; user++){
 
+    			$("<h3>",{"class":"autor_noticia" + user,
+                    html: titulo_val[user] + ". Mensaje de " + autor_val[user] + ". " + fecha_val[user],
+    			}).appendTo(".accordion");
 
-			$("<h3>",{"class":"autor_noticia",
-                html: titulo_val[id_perfil] + ". Mensaje de " + autor_val[id_perfil] + ". " + fecha_val[id_perfil],
-			}).appendTo(".accordion");
-
-			$("<div>",{"class":"noticia",
-                html: avatar_val[id_perfil] + "<ul><li>" + contenido_val[id_perfil] +"</li></ul>",
-			}).appendTo(".accordion");
-
-			$( ".accordion" ).accordion({heightStyle: "content"});
+    			$("<div>",{"class":"noticia" + user,
+                    html: avatar_val[user] + "<ul><li>" + contenido_val[user] +"</li></ul>",
+    			}).appendTo(".accordion");
+            }
+            $( ".accordion" ).accordion({heightStyle: "content"});;
 
             /*var timeline_divs = $(".timeline");
 
@@ -62,6 +187,44 @@ $(document).ready(function() {
                 $(value).html(html + "--wisel--");
             });*/
         })
+        .fail(function(data){
+            console.log("fallo");
+        });
+
+        $.getJSON("myline.json")
+        .done(function(data) {
+            var i = 0;
+            var valores_mine = [];
+            var num_usuarios = 0;
+            $.each(data,function (key,value){
+                num_usuarios++;
+                $.each(value,function (key,value){
+                    $.each(value,function (key,value){
+                        valores_mine[i] = value;
+                        i++;
+                    });
+                });
+            });
+
+            //console.log("AQUIIIIIII");
+            //console.log(valores_mine);
+
+            organizar_val_myline(valores_mine, num_usuarios);
+            //console.log(num_usuarios)
+            for (user = 0; user<num_usuarios; user++){
+
+                $("<h3>",{"class":"autor_noticia" + user,
+                    html: titulo_val_mine[user] + ". Mensaje de " + autor_val_mine[user] + ". " + fecha_val_mine[user],
+                }).appendTo(".accordion3");
+
+                $("<div>",{"class":"noticia" + user,
+                    html: avatar_val_mine[user] + "<ul><li>" + contenido_val_mine[user] +"</li></ul>",
+                }).appendTo(".accordion3");
+            }
+            $( ".accordion3" ).accordion({heightStyle: "content"});
+
+        })
+
         .fail(function(data){
             console.log("fallo");
         });
@@ -103,8 +266,7 @@ $(document).ready(function() {
             value: false,
             change: function() {
               progressLabel.text( "Progreso: " + progressbar.progressbar( "value" ) + "%" );
-        },
-        complete: function() {
+        }, complete: function() {
               progressLabel.text( "Descargado!" );
               dialog.dialog( "option", "buttons", [{
                 text: "Cancelar",
@@ -137,12 +299,78 @@ $(document).ready(function() {
         });
 
         $(function() {
+            var dialog, form,
+
+            name = $( "#name" ),
+            allFields = $( [] ).add( name ),
+            tips = $( ".validateTips" );
+
+            function updateTips( t ) {
+              tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+              setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+              }, 500 );
+            }
+
+            function checkRegexp( o, regexp, n ) {
+              if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+              } else {
+                return true;
+              }
+            }
+
+            function addUser() {
+              var valid = true;
+              allFields.removeClass( "ui-state-error" );
+              if ( valid ) {
+                $( "#users tbody" ).append( "<tr>" +
+                  "<td>" + name.val() + "</td>" +
+                "</tr>" );
+                dialog.dialog( "close" );
+              }
+              //console.log(name.val());
+              //AQUI TENGO LA INFORMACION DE LA NOTICIA
+              return valid;
+            }
+
+            dialog = $( "#dialog-form" ).dialog({
+              autoOpen: false,
+              height: 300,
+              width: 350,
+              modal: true,
+              buttons: {
+                "Publicar": addUser,
+                Cancelar: function() {
+                  dialog.dialog( "close" );
+                }
+              },
+              close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+              }
+            });
+
+            form = dialog.find( "form" ).on( "submit", function( event ) {
+              event.preventDefault();
+              addUser();
+            });
+
+            $( "#create-msg" ).button().on( "click", function() {
+              dialog.dialog( "open" );
+            });
+        });
+
+
+        $(function() {
             $( "#draggable" ).draggable({ axis: "x" });
         });
 
-        $(function() {
-            $( "#tabs" ).tabs();
-        });
+
 
         $(function() {
             $( "#menu" ).menu();
@@ -169,13 +397,4 @@ $(document).ready(function() {
                 $( "#dialogresp" ).dialog( "open" );
                 });
         });
-
-        $(function() {
-            $( "#accordion" ).accordion({
-                collapsible: true,
-                heightStyle: "content",
-                navigation: true
-            });
-        });
-
 });
